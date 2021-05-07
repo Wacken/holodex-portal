@@ -1,15 +1,17 @@
 {
   "name": "Holodex Portal",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Quickly jump from current YouTube video to Holodex website!",
-  "manifest_version": 2,
+  "manifest_version": 3,
 
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage", "alarms"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
-  "browser_action": {
+  "externally_connectable": {
+    "matches": ["*://*.holodex.net/*", "*://*.local-holodex.net/*"]
+  },
+  "action": {
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png"
