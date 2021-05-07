@@ -1,9 +1,9 @@
 chrome.browserAction.onClicked.addListener((tab) => {
-  const toolsUrls = ['hololive.jetri.co'];
+  const toolsUrls = ['holodex.net'];
   if (toolsUrls.some(url => tab.url.includes(url))) {
     return;
   }
-  const toolsUrl = 'https://hololive.jetri.co';
+  const toolsUrl = 'https://holodex.net/';
   const newTab = 'chrome://newtab/';
 
   const query = tab.url.split('?')[1];
@@ -12,7 +12,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
 
   ytVideoId || tab.url === newTab
     ? chrome.tabs.update(tab.id, {
-      url: ytVideoId ? `${toolsUrl}/#/watch?videoId=${ytVideoId}` : toolsUrl,
+      url: ytVideoId ? `${toolsUrl}multiview/AATY${ytVideoId}` : toolsUrl
     })
     : chrome.tabs.create({
       url: toolsUrl,
