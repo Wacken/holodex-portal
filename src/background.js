@@ -9,27 +9,29 @@ const MESSAGE = {
 const siteUrl = 'https://holodex.net/';
 const apiUrl = `${siteUrl}api/v2`;
 
-const cacheFavorites = async (jwt) => {
+const cacheFavorites = async (token) => {
   const response = await fetch(`${apiUrl}/users/favorites`, {
-    headers: { Authorization: `Bearer ${jwt}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
+
   if (response.ok) {
     const json = await response.json();
     const favorites = json.map((f) => f.id);
     chrome.storage.local.set({ favorites });
+    await updateBadge(token);
   }
 };
 
-const updateBadge = async (jwt) => {
+const updateBadge = async (token) => {
   const { favorites } = await new Promise((resolve) => chrome.storage.local.get({ favorites: [] }, resolve));
   const response = await fetch(`${apiUrl}/users/live?channels=${favorites.join(',')}`, {
-    headers: { Authorization: `Bearer ${jwt}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
+
   if (response.ok) {
     const json = await response.json();
-    chrome.action.setBadgeText({ text: json.length.toString() || null });
+    chrome.action.setBadgeText({ text: json.length ? json.length.toString() : null });
   }
-  return null;
 };
 
 chrome.action.onClicked.addListener(async (tab) => {
@@ -51,6 +53,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 });
 
 chrome.runtime.onMessageExternal.addListener((request, sender) => {
+  // Only domain name to test on staging too
   if (!sender.url.includes('holodex.net')) {
     return;
   }
