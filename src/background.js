@@ -30,7 +30,7 @@ const updateBadge = async (token) => {
 
   if (response.ok) {
     const json = await response.json();
-    chrome.action.setBadgeText({ text: json.length ? json.length.toString() : null });
+    chrome.action.setBadgeText({ text: json.length ? json.length.toString() : '' });
   }
 };
 
