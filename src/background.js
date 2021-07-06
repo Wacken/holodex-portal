@@ -46,7 +46,7 @@ chrome.action.onClicked.addListener(async (tab) => {
   const ytVideoId = params.get('v');
 
   if (ytVideoId || tab.url === newTab) {
-    chrome.tabs.update(tab.id, { url: ytVideoId ? `${siteUrl}multiview/AATY${ytVideoId}` : siteUrl });
+    chrome.tabs.update(tab.id, { url: ytVideoId ? `${siteUrl}watch/AATY${ytVideoId}` : siteUrl });
   } else {
     chrome.tabs.create({ url: siteUrl });
   }
